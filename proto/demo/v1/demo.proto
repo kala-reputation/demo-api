@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package demo.v1;
+
+
+
+// Pet represents a pet in the pet store.
+message Demo {
+  string demo_id = 1;
+  string name = 2;
+}
+
+message GetDemoRequest {
+  string demo_id = 1;
+}
+
+message GetDemoResponse {
+  Demo demo = 1;
+}
+
+
+service DemoService {
+  rpc GetDemo(GetDemoRequest) returns (GetDemoResponse) {}
+}
