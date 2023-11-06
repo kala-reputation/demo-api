@@ -1,8 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"net/http"
+
+	connect "connectrpc.com/connect"
+	demov1 "github.com/kala-reputation/demo-api/gen/demo/v1"
 
 	"github.com/kala-reputation/demo-api/gen/demo/v1/demov1connect"
 	"golang.org/x/net/http2"
@@ -31,11 +36,12 @@ type DemoAPIServer struct {
 
 // getdemo .
 // initialize context- move this to seperate class
-// func (s *DemoAPIServer) GetDemo(
-// 	ctx context.Context,
-// 	req *connect.Request[demov1.GetDemoRequest],
-// ) (*connect.Response[demov1.GetDemoResponse], error) {
-// 	name := req.Msg.GetDemoId()
-// 	log.Printf("Got a request to create a %v named %s", name)
-// 	return connect.NewResponse(&demov1.GetDemoResponse{}), nil
-// }
+func (s *DemoAPIServer) GetDemo(
+	ctx context.Context,
+	req *connect.Request[demov1.GetDemoRequest],
+) (*connect.Response[demov1.GetDemoResponse], error) {
+	demoid := req.Msg.GetDemoId()
+	demoname := req.Msg.GetName()
+	log.Printf("Got a request to create a %v named %s", demoid, demoname)
+	return connect.NewResponse(&demov1.GetDemoResponse{Msg: "successfully called", Name: demoname}), nil
+}
